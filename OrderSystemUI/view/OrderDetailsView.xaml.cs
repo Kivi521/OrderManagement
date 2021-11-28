@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OrderDataAccess;
+using OrderDomain;
+
 
 namespace OrderSystemUI.view
 {
@@ -20,9 +23,17 @@ namespace OrderSystemUI.view
     /// </summary>
     public partial class OrderDetailsView : Page
     {
-        public OrderDetailsView()
+        OrderHeader _order;
+        public OrderDetailsView(OrderHeader order)
         {
+            _order = order;
             InitializeComponent();
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

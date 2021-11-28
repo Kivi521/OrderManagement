@@ -45,7 +45,7 @@ namespace OrderISystemTest
 
             int numOfRows = _ordersRepo.GetOrderHeaders().Count();
 
-            Assert.AreEqual(11, numOfRows);
+            Assert.AreEqual(1, numOfRows);
 
         }
 
@@ -55,7 +55,7 @@ namespace OrderISystemTest
 
             OrderHeader order = _ordersRepo.GetOrderHeader(1);
 
-            Assert.AreEqual(200, order.Total);
+            Assert.AreEqual(275, order.Total);
         }
 
 
@@ -96,7 +96,32 @@ namespace OrderISystemTest
             OrderItem oldItem = _ordersRepo.GetItemsByHeaderId(1).First(p => p.StockItemId== 1);
             oldItem.Description = "i like this table very much!";
             int numOfRows = _ordersRepo.UpsertOrderItem(oldItem);
-            Assert.AreEqual(numOfRows, 1);
+            Assert.AreEqual(1, numOfRows);
         }
+
+        //[TestMethod]
+        //public void TestUpdateStockItemAmount()
+        //{
+        //    OrderHeader order = _ordersRepo.GetOrderHeader(1);            
+        //    int numOfRows = _SItems.UpdateStockItemAmount(order);
+        //    Assert.AreEqual(2, numOfRows);
+        //}
+
+        [TestMethod]
+        public void TestUpdateOrderState()
+        {
+            OrderHeader order = _ordersRepo.GetOrderHeader(1);
+            int numOfRows = _ordersRepo.UpdateOrderState(order);
+            Assert.AreEqual(1, numOfRows);
+        }
+
+        [TestMethod]
+        public void DeleteOrderHeaderAndOrderItems()
+        {
+            OrderHeader order = _ordersRepo.GetOrderHeader(1);
+            int numOfRows = _ordersRepo.DeleteOrderHeaderAndOrderItems(1);
+            Assert.AreEqual(3, numOfRows);
+        }
+
     }
 }

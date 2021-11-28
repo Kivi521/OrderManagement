@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OrderDataAccess;
+using OrderDomain;
+
 
 namespace OrderSystemUI.view
 {
@@ -33,6 +35,11 @@ namespace OrderSystemUI.view
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string action = (sender as Button).Content.ToString();
+
+            if(action == "Details")
+            {
+                var order = (OrderHeader)dgOrders.SelectedItems[0];
+            }
 
             Console.WriteLine(action);
         }

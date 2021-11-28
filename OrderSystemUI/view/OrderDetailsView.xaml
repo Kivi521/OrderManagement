@@ -9,6 +9,18 @@
       Title="OrderDetailsView">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <DataGrid x:Name = "dgOrderItem" IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="SKU" Binding="{Binding Id}" Width="100"/>
+                <DataGridTextColumn Header="Item" Binding="{Binding  Name}"  Width="200"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}"  Width="100"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"  Width="200"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding Total}"  Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

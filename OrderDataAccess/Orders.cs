@@ -203,6 +203,55 @@ namespace OrderDataAccess
             return numOfRows;
         }
 
+        public int UpdateOrderState(OrderHeader order)
+        {
+            int UpdateNumOfRows = 0;
+            OrderHeader oldOrder = new OrderHeader();
+            string UpdateOrderStateQuery = "UPDATE dbo.OrderHeaders SET OrderStateId = @OrderStateId WHERE OrderStateId = @OrderStateId";
+            using (SqlConnection connection = new SqlConnection(this._connectionString))
+            using (SqlCommand command = new SqlCommand(UpdateOrderStateQuery, connection))
+            {
+                command.Parameters.Add("@Id", SqlDbType.Int).Value = order.Id;
+                command.Parameters.Add("@OrderStateId", SqlDbType.Int).Value = (int)order.State;
+                connection.Open();
+                UpdateNumOfRows = command.ExecuteNonQuery();
+                connection.Close();
+
+            }
+                return UpdateNumOfRows;
+        }
+
+        public int DeleteOrderHeaderAndOrderItems(int orderHeaderId)
+        {
+            int deleteOrderHeaderNumOfRows = 0;
+            int deleteOrderItemsNumOfRows = 0; 
+            OrderHeader Order = new OrderHeader();
+            string deleteOrderHeaderQuery = "DELETE dbo.OrderHeaders WHERE Id = @OrderHeaderId";
+            string deleteOrderItemsQuery = "DELETE dbo.OrderItems WHERE OrderHeaderId = @OrderHeaderId";
+
+            using (SqlConnection connection = new SqlConnection(this._connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(deleteOrderItemsQuery, connection))
+                {
+                    command.Parameters.Add("@OrderHeaderId", SqlDbType.Int).Value = orderHeaderId;
+                    deleteOrderItemsNumOfRows = command.ExecuteNonQuery();
+                }
+
+            
+                using (SqlCommand command = new SqlCommand(deleteOrderHeaderQuery, connection))
+                {
+                    command.Parameters.Add("@OrderHeaderId", SqlDbType.Int).Value = orderHeaderId;
+                    deleteOrderHeaderNumOfRows = command.ExecuteNonQuery();
+                
+                }
+                connection.Close();
+            }
+
+            return (deleteOrderHeaderNumOfRows + deleteOrderItemsNumOfRows);
+
+        }
+
     }
     
 }

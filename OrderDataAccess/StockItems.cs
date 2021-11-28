@@ -40,10 +40,12 @@ namespace OrderDataAccess
                     SI.Name = reader[1].ToString();
                     SI.Price = double.Parse(reader[2].ToString());
                     stockItem.Add(SI);
-                }
 
+                }
+                
                 // Call Close when done reading.
                 reader.Close();
+                connection.Close();
             }
             return stockItem;
         }
@@ -64,9 +66,37 @@ namespace OrderDataAccess
                 item.Name = reader[1].ToString();
                 item.Price = double.Parse(reader[2].ToString());
                 item.InStock = int.Parse(reader[3].ToString());
+                reader.Close();
                 connection.Close();
             }
             return item;
+        }
+
+        public int UpdateStockItemAmount(OrderHeader order)
+        {
+            int updateNumOfRows = 0;
+
+            foreach(OrderItem item in order._orderItems)
+            {
+                // item.StockItemId, item.Quantity
+                string UpdateStockItemAmountQuery = "Update dbo.StockItems SET InStock = InStock - @Quantity WHERE Id = @StockItemId";
+                using (SqlConnection connection = new SqlConnection(this._connectionString))
+                using (SqlCommand command = new SqlCommand(UpdateStockItemAmountQuery, connection))
+                {
+                    // define parameters and their values
+                    command.Parameters.Add("@StockItemId", SqlDbType.Int).Value = item.StockItemId;
+                    command.Parameters.Add("@Quantity", SqlDbType.Int).Value = item.Quantity;
+
+                    connection.Open();
+                    //change the amount of older
+                    updateNumOfRows += command.ExecuteNonQuery();
+                    connection.Close();
+                }
+
+
+            }
+            
+             return updateNumOfRows;
         }
 
 
