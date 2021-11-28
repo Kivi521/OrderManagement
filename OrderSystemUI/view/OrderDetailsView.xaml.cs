@@ -23,17 +23,25 @@ namespace OrderSystemUI.view
     /// </summary>
     public partial class OrderDetailsView : Page
     {
-        OrderHeader _order;
-        public OrderDetailsView(OrderHeader order)
+        Orders _ordersRepo;
+        public OrderDetailsView(OrderHeader order, Orders ordersRepo)
         {
-            _order = order;
+            _ordersRepo = ordersRepo;
             InitializeComponent();
-
+            dgOrderItems.ItemsSource = order._orderItems;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            string action = (sender as Button).Content.ToString();
 
+            if (action == "Back")
+            {
+                var indexPage = new OrdersIndex(_ordersRepo);
+                this.NavigationService.Navigate(indexPage);
+            }
+
+            Console.WriteLine(action);
         }
     }
 }

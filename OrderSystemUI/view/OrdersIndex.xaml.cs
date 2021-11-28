@@ -39,6 +39,11 @@ namespace OrderSystemUI.view
             if(action == "Details")
             {
                 var order = (OrderHeader)dgOrders.SelectedItems[0];
+
+                var detailPage = new OrderDetailsView(order, _ordersRepo);
+                this.NavigationService.Navigate(detailPage);
+
+
             }
 
             Console.WriteLine(action);

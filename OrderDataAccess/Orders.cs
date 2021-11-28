@@ -49,7 +49,7 @@ namespace OrderDataAccess
 
             var orderItems = new List<OrderItem>();
 
-            string orderItemQuery = "Select * from dbo.OrderItems";
+            string orderItemQuery = "Select item.*, stock.Name from dbo.OrderItems as item left join dbo.StockItems as stock on item.StockItemId = stock.Id";
             using (SqlConnection cn = new SqlConnection(this._connectionString))
             using (SqlCommand cmd = new SqlCommand(orderItemQuery, cn))
             {
@@ -66,6 +66,7 @@ namespace OrderDataAccess
                     item.Price = decimal.Parse(reader[3].ToString());
                     item.Quantity = int.Parse(reader[4].ToString());
                     //item.Total = item.Price * item.Quantity;
+                    item.Name = reader[5].ToString();
                     orderItems.Add(item);
 
                     OrderHeader order = orders.First(p => p.Id == item.OrderHeaderId);
