@@ -47,12 +47,10 @@ namespace OrderSystemUI.view
                 _order.DateTime = DateTime.Now;
                 _order.State = OrderStates.New;
                 _order._orderItems = new List<OrderItem>();
-                Console.WriteLine("creating new");
             }
             else
             {
                 _order = newOrder;
-                Console.WriteLine("using existing");
             }
             
             List<OrderHeader> orders = new List<OrderHeader>();
@@ -79,14 +77,22 @@ namespace OrderSystemUI.view
             else if (action == "Delete")
             {
                 var selectedItem = (OrderItem)dgOrderItems.SelectedItems[0];
-                Console.WriteLine(selectedItem.Name);
-                _order._orderItems.Remove(selectedItem);
                 
-                dgOrderItems.Items.Remove(selectedItem);
+                _order._orderItems.Remove(selectedItem);
 
+                dgOrderItems.Items.Refresh();
+                dgOrder.Items.Refresh();
+               
             }
             else if (action == "Submit")
             {
+
+                if(_order.Count == 0)
+                {
+                    MessageBoxResult result = MessageBox.Show("Empty order!", "Notification");
+                    return;
+                }
+
                 if (_order.IsAllInStock)
                 {
                     _order.State = OrderStates.Complete;
