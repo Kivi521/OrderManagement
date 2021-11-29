@@ -56,8 +56,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Data\InvalidOrderStateException.cs" />
-    <Compile Include="Data\ManageData.cs" />
     <Compile Include="view\AddOrder.xaml.cs">
       <DependentUpon>AddOrder.xaml</DependentUpon>
     </Compile>
