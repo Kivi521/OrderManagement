@@ -58,20 +58,17 @@
     </ApplicationDefinition>
     <Compile Include="Data\InvalidOrderStateException.cs" />
     <Compile Include="Data\ManageData.cs" />
-    <Compile Include="view\AddOrderView.xaml.cs">
-      <DependentUpon>AddOrderView.xaml</DependentUpon>
+    <Compile Include="view\AddOrder.xaml.cs">
+      <DependentUpon>AddOrder.xaml</DependentUpon>
     </Compile>
-    <Compile Include="view\AddOrderItemView.xaml.cs">
-      <DependentUpon>AddOrderItemView.xaml</DependentUpon>
+    <Compile Include="view\AddOrderItem.xaml.cs">
+      <DependentUpon>AddOrderItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="view\OrderDetailsView.xaml.cs">
-      <DependentUpon>OrderDetailsView.xaml</DependentUpon>
+    <Compile Include="view\OrderDetails.xaml.cs">
+      <DependentUpon>OrderDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="view\OrdersIndex.xaml.cs">
       <DependentUpon>OrdersIndex.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="view\OrderView.xaml.cs">
-      <DependentUpon>OrderView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -85,23 +82,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="view\AddOrderView.xaml">
+    <Page Include="view\AddOrder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="view\AddOrderItemView.xaml">
+    <Page Include="view\AddOrderItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="view\OrderDetailsView.xaml">
+    <Page Include="view\OrderDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="view\OrdersIndex.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="view\OrderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

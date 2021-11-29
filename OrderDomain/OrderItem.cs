@@ -14,6 +14,8 @@ namespace OrderDomain
         public int Quantity { get; set; }
         public int StockItemId { get; set; }
 
+        public int StockGap { get; set; }
+
         public string Name { get; set; }
 
         public decimal Total {

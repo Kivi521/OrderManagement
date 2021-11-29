@@ -42,11 +42,13 @@ namespace OrderSystemUI.view
 
                 var detailPage = new OrderDetailsView(order, _ordersRepo);
                 this.NavigationService.Navigate(detailPage);
-
-
+            }else if (action == "New Order")
+            {
+                var addOrderPage = new AddOrder(_ordersRepo);
+                this.NavigationService.Navigate(addOrderPage);
             }
 
-            Console.WriteLine(action);
+                Console.WriteLine(action);
         }
     }
 }

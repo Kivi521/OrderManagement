@@ -24,6 +24,21 @@ namespace OrderDomain
             }
         }
 
+        public bool IsAllInStock
+        {
+            get
+            {
+                foreach (OrderItem item in _orderItems)
+                {
+                    if (item.StockGap < 0)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
         public int Count
         {
             get

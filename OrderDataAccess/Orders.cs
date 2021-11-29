@@ -91,9 +91,9 @@ namespace OrderDataAccess
 
         public int InsertOrderHeader(OrderHeader header)
         {
-            int numOfRows = 0;
+            int insertedId = 0;
             string query = "INSERT INTO dbo.OrderHeaders (OrderStateId, DateTime) " +
-                   "VALUES (@OrderStateId, @DateTime) ";
+                   "VALUES (@OrderStateId, @DateTime)  ; SELECT SCOPE_IDENTITY()";
 
             // create connection and command
             using (SqlConnection cn = new SqlConnection(this._connectionString))
@@ -105,11 +105,14 @@ namespace OrderDataAccess
 
                 // open connection, execute INSERT, close connection
                 cn.Open();
-                numOfRows = cmd.ExecuteNonQuery();
+
+                //numOfRows = cmd.ExecuteNonQuery();
+                insertedId = Convert.ToInt32(cmd.ExecuteScalar());
+
                 cn.Close();
             }
 
-            return numOfRows;
+            return insertedId;
         }
 
 

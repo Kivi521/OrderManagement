@@ -38,7 +38,7 @@ namespace OrderDataAccess
                     SI.Id = int.Parse(reader[0].ToString());
                     SI.InStock = int.Parse(reader[3].ToString());
                     SI.Name = reader[1].ToString();
-                    SI.Price = double.Parse(reader[2].ToString());
+                    SI.Price = decimal.Parse(reader[2].ToString());
                     stockItem.Add(SI);
 
                 }
@@ -64,7 +64,7 @@ namespace OrderDataAccess
                 reader.Read();
                 item.Id = int.Parse(reader[0].ToString());
                 item.Name = reader[1].ToString();
-                item.Price = double.Parse(reader[2].ToString());
+                item.Price = decimal.Parse(reader[2].ToString());
                 item.InStock = int.Parse(reader[3].ToString());
                 reader.Close();
                 connection.Close();

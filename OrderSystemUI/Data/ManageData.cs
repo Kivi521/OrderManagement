@@ -44,7 +44,7 @@ namespace OrderSystemUI.Data
                     SI.Id = int.Parse(reader[0].ToString());
                     SI.InStock = int.Parse(reader[3].ToString());
                     SI.Name = reader[1].ToString();
-                    SI.Price = double.Parse(reader[2].ToString());
+                    SI.Price = decimal.Parse(reader[2].ToString());
                     stockItem.Add(SI);
                 }
 
