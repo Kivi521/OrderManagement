@@ -252,6 +252,21 @@ namespace OrderDataAccess
 
         }
 
+        public int DeleteOrderItem(int orderHeaderId, int stockItemId)
+        {
+            int deleteOrderItemsNumOfRows = 0;
+            string DeleteOrderItemQuery = "DELETE dbo.OrderItems WHERE OrderHeaderId = @OrderHeaderId and StockItemId = @StockItemId";
+            using (SqlConnection connection = new SqlConnection(this._connectionString))
+            using (SqlCommand command = new SqlCommand(DeleteOrderItemQuery, connection))
+            {
+                command.Parameters.Add("@OrderHeaderId", SqlDbType.Int).Value = orderHeaderId;
+                command.Parameters.Add("@StockItemId", SqlDbType.Int).Value = stockItemId;
+                connection.Open();
+                deleteOrderItemsNumOfRows = command.ExecuteNonQuery();
+                connection.Close();
+            }           
+             return deleteOrderItemsNumOfRows;
+        }
     }
     
 }
