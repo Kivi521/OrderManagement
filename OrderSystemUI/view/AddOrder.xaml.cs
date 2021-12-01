@@ -58,6 +58,7 @@ namespace OrderSystemUI.view
 
             dgOrderItems.ItemsSource = _order._orderItems;
             dgOrder.ItemsSource = orders;
+
         }
 
 
