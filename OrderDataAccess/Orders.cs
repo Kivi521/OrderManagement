@@ -11,14 +11,25 @@ using System.Data;
 
 namespace OrderDataAccess
 {
+    /// <summary>
+    /// class of orders to manage the orders, connect with all the orders tables of database, contain GetOrderHeaders; GetOrderHeader; InsertOrderHeader; IEnumerable;
+    /// UpsertOrderItem; UpdateOrderState; DeleteOrderHeader; Dlete OrderItems
+    /// </summary>
     public class Orders
     {
         private string _connectionString;
+        /// <summary>
+        /// set connetionString a value which is cnnStr
+        /// </summary>
+        /// <param name="cnnStr"></param>
         public Orders(string cnnStr)
         {
             this._connectionString = cnnStr;
         }
-
+        /// <summary>
+        /// GetOrderHeaders method is for getting all the order header from orderheader database table
+        /// </summary>
+        /// <returns>the list of all the orders from the orderheader database table</returns>
         public IEnumerable<OrderHeader> GetOrderHeaders()
         {
             List<OrderHeader> orders = new List<OrderHeader>();
@@ -49,7 +60,7 @@ namespace OrderDataAccess
 
             var orderItems = new List<OrderItem>();
 
-            string orderItemQuery = "Select * from dbo.OrderItems";
+            string orderItemQuery = "Select item.*, stock.Name from dbo.OrderItems as item left join dbo.StockItems as stock on item.StockItemId = stock.Id";
             using (SqlConnection cn = new SqlConnection(this._connectionString))
             using (SqlCommand cmd = new SqlCommand(orderItemQuery, cn))
             {
@@ -66,6 +77,7 @@ namespace OrderDataAccess
                     item.Price = decimal.Parse(reader[3].ToString());
                     item.Quantity = int.Parse(reader[4].ToString());
                     //item.Total = item.Price * item.Quantity;
+                    item.Name = reader[5].ToString();
                     orderItems.Add(item);
 
                     OrderHeader order = orders.First(p => p.Id == item.OrderHeaderId);
@@ -80,19 +92,28 @@ namespace OrderDataAccess
 
             return orders;
         }
-
+        /// <summary>
+        /// GetOrderHeader method is for getting a select order header from all the order headers by id to deal with
+        /// </summary>
+        /// <param name="id">order header id</param>
+        /// <returns>the seleted order header</returns>
         public OrderHeader GetOrderHeader(int id)
         {
             OrderHeader order = GetOrderHeaders().First(header => header.Id == id);
 
             return order;
         }
+        /// <summary>
+        ///  InsertOrderHeader method is for insert a new orderheader into orderheader database table
+        /// </summary>
+        /// <param name="header">the new older </param>
+        /// <returns>the insert new order's id</returns>
 
         public int InsertOrderHeader(OrderHeader header)
         {
-            int numOfRows = 0;
+            int insertedId = 0;
             string query = "INSERT INTO dbo.OrderHeaders (OrderStateId, DateTime) " +
-                   "VALUES (@OrderStateId, @DateTime) ";
+                   "VALUES (@OrderStateId, @DateTime)  ; SELECT SCOPE_IDENTITY()";
 
             // create connection and command
             using (SqlConnection cn = new SqlConnection(this._connectionString))
@@ -104,14 +125,21 @@ namespace OrderDataAccess
 
                 // open connection, execute INSERT, close connection
                 cn.Open();
-                numOfRows = cmd.ExecuteNonQuery();
+
+                //numOfRows = cmd.ExecuteNonQuery();
+                insertedId = Convert.ToInt32(cmd.ExecuteScalar());
+
                 cn.Close();
             }
 
-            return numOfRows;
+            return insertedId;
         }
 
-
+        /// <summary>
+        /// GetItemsByHeaderId method is for getting the matched item obey header id
+        /// </summary>
+        /// <param name="orderHeadId">the selected order header id</param>
+        /// <returns> the list of order items</returns>
         public IEnumerable<OrderItem> GetItemsByHeaderId(int orderHeadId)
         {
             var orderItems = new List<OrderItem>();
@@ -145,7 +173,11 @@ namespace OrderDataAccess
 
             return orderItems;
         }
-
+        /// <summary>
+        ///  UpsertOrderItem method has two aims, I will insert an orderItem, if the order item is not exit, the item will be insert, if it is exit, the informatioin will update to the new import.
+        /// </summary>
+        /// <param name="orderItem">the item that I would like to insert or update</param>
+        /// <returns>the number of insert or update orderitem's row </returns>
         public int UpsertOrderItem(OrderItem orderItem)
         {
             int numOfRows = 0;
@@ -202,7 +234,11 @@ namespace OrderDataAccess
 
             return numOfRows;
         }
-
+        /// <summary>
+        /// UpdateOrderState method is for update the order state from new to pending or complete.
+        /// </summary>
+        /// <param name="order">the selected order</param>
+        /// <returns>the number of row that I have update state</returns>
         public int UpdateOrderState(OrderHeader order)
         {
             int UpdateNumOfRows = 0;
@@ -220,7 +256,11 @@ namespace OrderDataAccess
             }
                 return UpdateNumOfRows;
         }
-
+        /// <summary>
+        /// DeleteOrderHeaderAndOrderItems method is for delete the orderheader and delete the order items from the database table
+        /// </summary>
+        /// <param name="orderHeaderId">the selected orderheader if</param>
+        /// <returns>sum of the number of delete order header row and the number of delete order item row</returns>
         public int DeleteOrderHeaderAndOrderItems(int orderHeaderId)
         {
             int deleteOrderHeaderNumOfRows = 0;

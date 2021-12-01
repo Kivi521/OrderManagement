@@ -1,0 +1,57 @@
+﻿<Page x:Class="OrderSystemUI.view.AddOrderItem"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:OrderSystemUI.view"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="OrderItemNew">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition MinHeight="50"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="1" Content="New Item"  Grid.ColumnSpan="2" Style="{StaticResource HeaderLabel}"/>
+
+        <Label Grid.Row="1" Grid.Column="1" Content="Select Item:"  Grid.ColumnSpan="1" Style="{StaticResource FormLabel}"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="Name" Style="{StaticResource FormLabel}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Name}" Style="{StaticResource FormTextbox}" IsReadOnly="True" Name="itemName" />
+
+        <Label Grid.Row="2" Grid.Column="2" Content="Price" Style="{StaticResource FormLabel}"/>
+        <TextBox Grid.Row="2" Grid.Column="3"  Text="{Binding Price}" Style="{StaticResource FormTextbox}" IsReadOnly="True" Name="price"/>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="Description" Style="{StaticResource FormLabel}"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Description}" Style="{StaticResource FormTextbox}" Name="description"/>
+
+
+        <Label Grid.Row="3" Grid.Column="0" Content="Quantity" Style="{StaticResource FormLabel}"/>
+        <TextBox Grid.Row="3" Grid.Column="1"  Text="{Binding Quantity}" Style="{StaticResource FormTextbox}" />
+
+        <Button Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Content="Save" Margin="10" Height="50" Width="100" Click="Button_Click"/>
+        <Button Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="1" Content="Cancel" Margin="10" Height="50" Width="100" Click="Button_Click"/>
+
+        <ComboBox Name="stockSelector" SelectionChanged="stock_SelectionChanged" HorizontalAlignment="Left" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="220" RenderTransformOrigin="3.645,-2.814" Grid.Column="2" Height="54">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" Padding="10"/>
+                        <TextBlock Text="{Binding Price}" Padding="10" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </Grid>
+</Page>

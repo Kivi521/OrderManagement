@@ -10,7 +10,9 @@ using System.Data.SqlClient;
 using System.Data;
 
 namespace OrderDataAccess
-{
+{/// <summary>
+/// StockItems method is for manage stock Items, connect with stockItems table of database
+/// </summary>
     public class StockItems
     {
         private string _connectionString;
@@ -18,11 +20,14 @@ namespace OrderDataAccess
         {
             this._connectionString = connString;
         }
+        /// <summary>
+        /// GetStockItems method if for getting all the stockItems of [add order item view] from stockItems table of database
+        /// </summary>
+        /// <returns>all the stock items and it's price</returns>
         public IEnumerable<StockItem> GetStockItems()
         {
             var stockItem = new List<StockItem>();
-            //TODO: (Task 2A) 
-            //add the logic for retrieving all People records from the database and populatinng the list with the retrieved data so it can be returned
+           
 
             string queryString = "SELECT * FROM dbo.StockItems;";
 
@@ -38,7 +43,7 @@ namespace OrderDataAccess
                     SI.Id = int.Parse(reader[0].ToString());
                     SI.InStock = int.Parse(reader[3].ToString());
                     SI.Name = reader[1].ToString();
-                    SI.Price = double.Parse(reader[2].ToString());
+                    SI.Price = decimal.Parse(reader[2].ToString());
                     stockItem.Add(SI);
 
                 }
@@ -50,7 +55,11 @@ namespace OrderDataAccess
             return stockItem;
         }
 
-
+        /// <summary>
+        /// GetStockItem method if for getting one stock Item by item id stockItems table of database
+        /// </summary>
+        /// <param name="id">item id</param>
+        /// <returns>the collected stock item</returns>
         public StockItem GetStockItem(int id)
         {
             StockItem item = new StockItem();
@@ -64,14 +73,18 @@ namespace OrderDataAccess
                 reader.Read();
                 item.Id = int.Parse(reader[0].ToString());
                 item.Name = reader[1].ToString();
-                item.Price = double.Parse(reader[2].ToString());
+                item.Price = decimal.Parse(reader[2].ToString());
                 item.InStock = int.Parse(reader[3].ToString());
                 reader.Close();
                 connection.Close();
             }
             return item;
         }
-
+        /// <summary>
+        /// UpdateStockItemAmount method is for update the stockItem Amount, if the customer would like to change their amount of collecte item, they could use this method
+        /// </summary>
+        /// <param name="order">an orderHeader</param>
+        /// <returns>the number of rows that the Item amount be changed </returns>
         public int UpdateStockItemAmount(OrderHeader order)
         {
             int updateNumOfRows = 0;
